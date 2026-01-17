@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Анализ сходства изображений{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="site-header">
+    <div class="header-inner">
+        <div class="logo">
+            <a href="{{ url_for('index') }}">Анализ сходства изображений</a>
+        </div>
+
+        <nav class="main-nav">
+            <a href="{{ url_for('index') }}">Главная</a>
+            <a href="{{ url_for('history') }}">История анализов</a>
+        </nav>
+
+        <div class="auth-block">
+            {% if user %}
+                <span class="user-label">
+                    Вы вошли как <strong>{{ user.username }}</strong>
+                </span>
+                <a href="{{ url_for('logout') }}" class="btn-link">Выход</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="btn-link">Вход</a>
+                <a href="{{ url_for('register') }}" class="btn-link">Регистрация</a>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<main class="page-main">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flash-messages">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}История анализов — Анализ сходства изображений{% endblock %}
+
+{% block content %}
+
+<section>
+    <h2>История анализов</h2>
+
+    {% if analyses %}
+    <table class="history-table">
+        <thead>
+        <tr>
+            <th>Дата</th>
+            <th>Изображения</th>
+            <th>Метод</th>
+            <th>Режим</th>
+            <th>Результат, %</th>
+            <th>Отчёт</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for a in analyses %}
+        <tr>
+            <td>{{ a.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+                <div class="history-images">
+                    <img src="{{ url_for('static', filename=a.image1_path) }}"
+                         alt="Изображение 1">
+                    {% if a.image2_path %}
+                    <img src="{{ url_for('static', filename=a.image2_path) }}"
+                         alt="Изображение 2">
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+                {% if a.method == 'ssim' %}
+                    SSIM
+                {% elif a.method == 'hist' %}
+                    Гистограмма
+                {% else %}
+                    {{ a.method }}
+                {% endif %}
+            </td>
+            <td>
+                {% if a.mode == 'pair' %}
+                    Сравнение
+                {% elif a.mode == 'search' %}
+                    Поиск
+                {% else %}
+                    {{ a.mode }}
+                {% endif %}
+            </td>
+            <td>{{ "%.2f"|format(a.similarity) }}</td>
+            <td>
+                <a href="{{ url_for('report_pdf', analysis_id=a.id) }}" target="_blank">
+                    PDF
+                </a>
+            </td>
+            <td>
+                <form action="{{ url_for('delete_analysis', analysis_id=a.id) }}"
+                      method="post"
+                      onsubmit="return confirm('Удалить эту запись из истории?');">
+                    <button type="submit" class="btn-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>История пока пуста. Выполните анализ и сохраните результат.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

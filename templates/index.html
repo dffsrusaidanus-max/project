@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Главная — Анализ сходства изображений{% endblock %}
+
+{% block content %}
+
+<section class="form-section">
+    <h2>Новый анализ</h2>
+    <form action="{{ url_for('analyze') }}" method="post" enctype="multipart/form-data">
+        <div class="form-row">
+            <label for="mode">Режим:</label>
+            <select id="mode" name="mode">
+                <option value="pair"
+                    {% if result and result.mode == 'pair' %}selected{% endif %}>
+                    Сравнение двух изображений
+                </option>
+                <option value="search"
+                    {% if result and result.mode == 'search' %}selected{% endif %}>
+                    Поиск похожих в базе
+                </option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label for="method">Метод сравнения:</label>
+            <select id="method" name="method">
+                <option value="ssim"
+                    {% if not result or result.method == 'ssim' %}selected{% endif %}>
+                    SSIM (структурное сходство)
+                </option>
+                <option value="hist"
+                    {% if result and result.method == 'hist' %}selected{% endif %}>
+                    Гистограммный анализ
+                </option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <label for="image1">Изображение 1:</label>
+            <input id="image1" type="file" name="image1" accept="image/*" required>
+        </div>
+
+        <div class="form-row" id="image2-group">
+            <label for="image2">Изображение 2:</label>
+            <input id="image2" type="file" name="image2" accept="image/*">
+        </div>
+
+        <button type="submit">Анализ</button>
+    </form>
+
+    {% if not user %}
+        <p class="hint-text">
+            Для сохранения результатов в историю и экспорта отчётов
+            <a href="{{ url_for('login') }}">войдите</a> или
+            <a href="{{ url_for('register') }}">зарегистрируйтесь</a>.
+        </p>
+    {% endif %}
+</section>
+
+{% if result %}
+<section class="result-section">
+    <h2>Результат анализа</h2>
+
+    <p>
+        <strong>Режим:</strong>
+        {% if result.mode == 'pair' %}
+            Сравнение двух изображений
+        {% else %}
+            Поиск похожих в базе
+        {% endif %}
+    </p>
+
+    <p><strong>Метод:</strong> {{ result.method_label }}</p>
+
+    <p>
+        <strong>Коэффициент сходства:</strong>
+        {{ "%.2f"|format(result.similarity) }} %
+    </p>
+
+    <div class="images-row">
+        <div class="image-block">
+            <p>Изображение 1</p>
+            <img src="{{ url_for('static', filename=result.image1) }}"
+                 alt="Изображение 1">
+        </div>
+        {% if result.image2 %}
+        <div class="image-block">
+            <p>Изображение 2</p>
+            <img src="{{ url_for('static', filename=result.image2) }}"
+                 alt="Изображение 2">
+        </div>
+        {% endif %}
+    </div>
+
+    {% if result.diff_image %}
+    <div class="diff-map">
+        <p><strong>Карта различий (SSIM)</strong></p>
+        <img src="{{ url_for('static', filename=result.diff_image) }}"
+             alt="Карта различий">
+    </div>
+    {% endif %}
+
+    {% if result.mode == 'search' and result.search_matches %}
+    <h3>Топ похожих изображений</h3>
+    <table class="matches-table">
+        <thead>
+        <tr>
+            <th>Превью</th>
+            <th>Путь</th>
+            <th>Сходство, %</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for m in result.search_matches %}
+        <tr>
+            <td>
+                <img src="{{ url_for('static', filename=m.file_path) }}"
+                     alt="Совпадение">
+            </td>
+            <td>{{ m.file_path }}</td>
+            <td>{{ "%.2f"|format(m.similarity * 100) }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    {% if user %}
+        <form action="{{ url_for('save_result') }}" method="post">
+            <button type="submit">Сохранить результат</button>
+        </form>
+    {% else %}
+        <p class="hint-text">
+            Войдите в систему, чтобы сохранить результат в историю:
+            <a href="{{ url_for('login') }}">Вход</a> /
+            <a href="{{ url_for('register') }}">Регистрация</a>.
+        </p>
+    {% endif %}
+</section>
+{% endif %}
+
+<script>
+    const modeSelect = document.getElementById('mode');
+    const image2Group = document.getElementById('image2-group');
+
+    function updateModeVisibility() {
+        if (modeSelect.value === 'pair') {
+            image2Group.style.display = 'flex';
+        } else {
+            image2Group.style.display = 'none';
+        }
+    }
+
+    modeSelect.addEventListener('change', updateModeVisibility);
+    updateModeVisibility();
+</script>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация — Анализ сходства изображений{% endblock %}
+
+{% block content %}
+
+<section class="auth-form">
+    <h2>Регистрация</h2>
+
+    <form action="{{ url_for('register') }}" method="post">
+        <div class="form-row">
+            <label for="username">Логин:</label>
+            <input id="username"
+                   type="text"
+                   name="username"
+                   required
+                   autocomplete="username">
+        </div>
+
+        <div class="form-row">
+            <label for="password">Пароль:</label>
+            <input id="password"
+                   type="password"
+                   name="password"
+                   required
+                   autocomplete="new-password">
+        </div>
+
+        <div class="form-row">
+            <label for="password2">Повторите пароль:</label>
+            <input id="password2"
+                   type="password"
+                   name="password2"
+                   required
+                   autocomplete="new-password">
+        </div>
+
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <p class="hint-text">
+        Уже есть аккаунт?
+        <a href="{{ url_for('login') }}">Войдите</a>.
+    </p>
+</section>
+
+{% endblock %}
