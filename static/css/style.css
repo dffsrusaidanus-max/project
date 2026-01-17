@@ -1,0 +1,313 @@
+/* ===== БАЗОВЫЕ НАСТРОЙКИ ===== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #f5f5f5;
+    color: #222;
+}
+
+/* ===== ШАПКА САЙТА ===== */
+
+.site-header {
+    background: #20232a;
+    color: #fff;
+    padding: 10px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo a {
+    color: #61dafb;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.logo a:hover {
+    text-decoration: underline;
+}
+
+.main-nav {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.main-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.main-nav a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.auth-block {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    font-size: 14px;
+}
+
+.user-label {
+    color: #ddd;
+}
+
+.btn-link {
+    color: #61dafb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
+
+.page-main {
+    max-width: 1100px;
+    margin: 20px auto 30px;
+    padding: 0 15px;
+}
+
+/* ===== ВСПЛЫВАЮЩИЕ СООБЩЕНИЯ ===== */
+
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 15px 0;
+}
+
+.flash-messages li {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+/* ===== КАРТОЧКИ / СЕКЦИИ ===== */
+
+.form-section,
+.result-section,
+.page-main > section {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.form-section h2,
+.result-section h2,
+.page-main > section h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+/* ===== ФОРМА АНАЛИЗА ===== */
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.form-row label {
+    min-width: 140px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+input[type="file"],
+select,
+input[type="text"],
+input[type="password"] {
+    flex: 1;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+button {
+    margin-top: 10px;
+    padding: 8px 18px;
+    border-radius: 6px;
+    border: none;
+    background: #61dafb;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+button:hover {
+    background: #4ec3e0;
+}
+
+/* красная кнопка удаления */
+.btn-danger {
+    background: #dc3545;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+/* Подсказки / текст под формами */
+
+.hint-text {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #555;
+}
+
+.hint-text a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.hint-text a:hover {
+    text-decoration: underline;
+}
+
+/* ===== БЛОКИ ИЗОБРАЖЕНИЙ ===== */
+
+.images-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.image-block p {
+    margin: 0 0 5px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.image-block img {
+    max-width: 260px;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+}
+
+.diff-map {
+    margin-top: 15px;
+}
+
+.diff-map img {
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.15);
+}
+
+/* ===== ТАБЛИЦЫ (ТОП СОВПАДЕНИЙ, ИСТОРИЯ) ===== */
+
+.matches-table,
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.matches-table th,
+.matches-table td,
+.history-table th,
+.history-table td {
+    border: 1px solid #ddd;
+    padding: 6px 8px;
+    text-align: center;
+}
+
+.matches-table th,
+.history-table th {
+    background: #f0f0f0;
+    font-weight: 600;
+}
+
+.matches-table img,
+.history-images img {
+    max-width: 80px;
+    max-height: 60px;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+/* контейнер картинок в истории */
+
+.history-images {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ===== ФОРМЫ ЛОГИНА / РЕГИСТРАЦИИ (опционально) ===== */
+
+.auth-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.auth-form h2 {
+    text-align: center;
+}
+
+.auth-form .form-row {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.auth-form .form-row label {
+    min-width: 0;
+    margin-bottom: 4px;
+}
+
+/* ===== АДАПТИВНОСТЬ ===== */
+
+@media (max-width: 768px) {
+    .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .form-row label {
+        min-width: 0;
+    }
+
+    .images-row {
+        flex-direction: column;
+    }
+}
